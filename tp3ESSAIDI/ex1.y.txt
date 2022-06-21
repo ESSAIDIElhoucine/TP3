@@ -1,0 +1,36 @@
+
+%{
+	#include<stdio.h>
+	#include<string.h>
+	int flag=0;
+	void yyerror(char *s);
+	int yylex();
+%}
+
+%token DEBUT
+%token FIN
+%token entier
+%token REEL
+%token AF
+%token ID
+%token TO
+%token ARITH
+%%
+E: DEBUT Oper FIN{return 0;};
+Oper: ID AF DD ARITH D |ID AF D;
+D:DD TO|DD TO Oper;
+DD:REEL|entier|ID  ;
+
+%%
+
+void main()
+{
+  printf("\n Enter expression\n");
+  yyparse();
+  if(flag==0)
+    printf("\n expression is Valid\n\n");
+    
+    
+}
+
+void yyerror(char *s){printf("Erreur syntaxique:%s\n",s); flag=1;}
